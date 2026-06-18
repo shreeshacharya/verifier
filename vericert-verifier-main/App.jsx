@@ -37,7 +37,7 @@ const SidebarItem = ({ to, icon, label, active }) => (
 );
 
 const App = () => {
-  const [db, setDb] = useState([
+  const defaultDb = [
     {
       id: 'vtu-1',
       certificateId: '4MW22CS145',
@@ -74,7 +74,24 @@ const App = () => {
       semester: 'PUC2',
       resultStatus: 'DISTINCTION'
     }
-  ]);
+  ];
+
+  const [db, setDb] = useState(() => {
+    const saved = localStorage.getItem('vericert_db');
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        return defaultDb;
+      }
+    }
+    return defaultDb;
+  });
+
+  React.useEffect(() => {
+    localStorage.setItem('vericert_db', JSON.stringify(db));
+  }, [db]);
+
   const loading = false;
 
   if (loading) {
