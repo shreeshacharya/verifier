@@ -1,0 +1,7 @@
+{
+  "name": "Verificator ",
+  "description": "A secure, AI-powered platform for verifying academic degrees and detecting forgeries using OCR and document analysis.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
