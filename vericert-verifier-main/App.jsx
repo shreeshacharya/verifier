@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { HashRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { 
   ShieldCheck, 
@@ -37,25 +37,45 @@ const SidebarItem = ({ to, icon, label, active }) => (
 );
 
 const App = () => {
-  const [db, setDb] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchRecords = async () => {
-      try {
-        const response = await fetch('/api/records');
-        if (response.ok) {
-          const data = await response.json();
-          setDb(data);
-        }
-      } catch (error) {
-        console.error('Failed to fetch records:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchRecords();
-  }, []);
+  const [db, setDb] = useState([
+    {
+      id: 'vtu-1',
+      certificateId: '4MW22CS145',
+      studentName: 'Mohammed Ali',
+      degreeName: 'Bachelor of Engineering',
+      institution: 'VISVESVARAYA TECHNOLOGICAL UNIVERSITY, BELAGAVI',
+      graduationYear: 2025,
+      issueDate: '2025-07-20',
+      status: 'active',
+      semester: '6',
+      resultStatus: 'PASS'
+    },
+    {
+      id: 'vtu-2',
+      certificateId: '4MW22CS183',
+      studentName: 'VINYAS',
+      degreeName: 'Bachelor of Engineering',
+      institution: 'VISVESVARAYA TECHNOLOGICAL UNIVERSITY, BELAGAVI',
+      graduationYear: 2025,
+      issueDate: '2025-07-20',
+      status: 'active',
+      semester: '6',
+      resultStatus: 'PASS'
+    },
+    {
+      id: 'puc-1',
+      certificateId: '661281',
+      studentName: 'SHREESHA',
+      degreeName: 'Pre-University Certificate',
+      institution: 'JNANAGANGA PU COLLEGE',
+      graduationYear: 2022,
+      issueDate: '2022-04-15',
+      status: 'active',
+      semester: 'PUC2',
+      resultStatus: 'DISTINCTION'
+    }
+  ]);
+  const loading = false;
 
   if (loading) {
     return (

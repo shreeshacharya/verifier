@@ -38,25 +38,13 @@ const AdminDashboard = ({ db, setDb }) => {
     status: 'active'
   });
 
-  const handleLogin = async (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(loginForm)
-      });
-      
-      const data = await response.json();
-      
-      if (response.ok && data.success) {
-        setIsAuthenticated(true);
-        setLoginError('');
-      } else {
-        setLoginError(data.message || 'Invalid institutional credentials.');
-      }
-    } catch (error) {
-      setLoginError('Connection to server failed.');
+    if (loginForm.username === 'shreesha' && loginForm.password === 'password') {
+      setIsAuthenticated(true);
+      setLoginError('');
+    } else {
+      setLoginError('Invalid institutional credentials.');
     }
   };
 
@@ -73,7 +61,7 @@ const AdminDashboard = ({ db, setDb }) => {
     document.body.removeChild(link);
   };
 
-  const handleAdd = async (e) => {
+  const handleAdd = (e) => {
     e.preventDefault();
     if (!newRecord.studentName || !newRecord.certificateId) return;
 
@@ -84,42 +72,21 @@ const AdminDashboard = ({ db, setDb }) => {
       status: 'active'
     };
 
-    try {
-      const response = await fetch('/api/records', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(record)
-      });
-
-      if (response.ok) {
-        setDb(prev => [record, ...prev]);
-        setNewRecord({
-          studentName: '',
-          degreeName: '',
-          institution: '',
-          graduationYear: new Date().getFullYear(),
-          certificateId: '',
-          status: 'active'
-        });
-        setShowAddForm(false);
-        setImportStats({ count: 1, msg: 'Individual student record added.' });
-      }
-    } catch (error) {
-      console.error('Failed to add record:', error);
-    }
+    setDb(prev => [record, ...prev]);
+    setNewRecord({
+      studentName: '',
+      degreeName: '',
+      institution: '',
+      graduationYear: new Date().getFullYear(),
+      certificateId: '',
+      status: 'active'
+    });
+    setShowAddForm(false);
+    setImportStats({ count: 1, msg: 'Individual student record added.' });
   };
 
-  const handleDelete = async (id) => {
-    try {
-      const response = await fetch(`/api/records/${id}`, {
-        method: 'DELETE'
-      });
-      if (response.ok) {
-        setDb(prev => prev.filter(r => r.id !== id));
-      }
-    } catch (error) {
-      console.error('Failed to delete record:', error);
-    }
+  const handleDelete = (id) => {
+    setDb(prev => prev.filter(r => r.id !== id));
   };
 
   const handleCsvUpload = (e) => {
